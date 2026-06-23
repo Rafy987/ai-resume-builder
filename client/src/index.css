@@ -1,0 +1,424 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ── Base ──────────────────────────────────────────────────────────────── */
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #0a0f1e;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ── Design tokens ─────────────────────────────────────────────────────── */
+:root {
+  --bg-base:       #0a0f1e;
+  --bg-card:       #111827;
+  --bg-card-hover: #131f35;
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-mid:    rgba(255, 255, 255, 0.10);
+  --accent-blue:   #3b82f6;
+  --accent-cyan:   #06b6d4;
+  --accent-violet: #8b5cf6;
+}
+
+/* ── Animations ────────────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(1.4); }
+}
+
+@keyframes scroll-progress {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.4s ease both;
+}
+
+.animate-pulse-dot {
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+/* staggered fade-up delays */
+.delay-0  { animation-delay: 0s; }
+.delay-1  { animation-delay: 0.08s; }
+.delay-2  { animation-delay: 0.16s; }
+.delay-3  { animation-delay: 0.24s; }
+.delay-4  { animation-delay: 0.32s; }
+.delay-5  { animation-delay: 0.40s; }
+.delay-6  { animation-delay: 0.48s; }
+
+/* ── Scroll progress bar ───────────────────────────────────────────────── */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(to right, var(--accent-blue), var(--accent-cyan));
+  transform-origin: left;
+  animation: scroll-progress 1s ease forwards;
+  z-index: 9999;
+}
+
+/* ── Glass card ────────────────────────────────────────────────────────── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ── Gradient text helper ──────────────────────────────────────────────── */
+.text-gradient-blue-cyan {
+  background: linear-gradient(to right, #3b82f6, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Sidebar active nav item left border ──────────────────────────────── */
+.nav-active {
+  border-left: 3px solid var(--accent-blue);
+  background: rgba(59, 130, 246, 0.08);
+  color: #93c5fd;
+}
+
+.nav-inactive {
+  border-left: 3px solid transparent;
+  color: #64748b;
+}
+
+/* ── Dark scrollbar ────────────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.18); }
+
+/* ── Card hover lift ───────────────────────────────────────────────────── */
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(59, 130, 246, 0.10);
+}
+
+/* ── Hero dot pattern overlay ──────────────────────────────────────────── */
+.hero-dots {
+  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ── Auth page fade-in ─────────────────────────────────────────────────── */
+@keyframes authFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.auth-fade-in {
+  animation: authFadeIn 0.5s ease both;
+}
+
+/* ── Auth form shake on error ──────────────────────────────────────────── */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-6px); }
+  40%       { transform: translateX(6px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+.shake {
+  animation: shake 0.35s ease;
+}
+
+/* ── Auth input dark style ─────────────────────────────────────────────── */
+.auth-input {
+  width: 100%;
+  padding: 12px 16px 12px 44px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.875rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+.auth-input::placeholder { color: #64748b; }
+.auth-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+.auth-input.error {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+
+/* ── Auth floating card animation (left panel) ─────────────────────────── */
+@keyframes float1 {
+  0%, 100% { transform: translateY(0px) rotate(-2deg); }
+  50%       { transform: translateY(-12px) rotate(-2deg); }
+}
+@keyframes float2 {
+  0%, 100% { transform: translateY(0px) rotate(1.5deg); }
+  50%       { transform: translateY(-8px) rotate(1.5deg); }
+}
+@keyframes float3 {
+  0%, 100% { transform: translateY(0px) rotate(-1deg); }
+  50%       { transform: translateY(-16px) rotate(-1deg); }
+}
+.float-1 { animation: float1 5s ease-in-out infinite; }
+.float-2 { animation: float2 6.5s ease-in-out infinite 0.8s; }
+.float-3 { animation: float3 4.5s ease-in-out infinite 1.6s; }
+
+/* ── Password strength bar ─────────────────────────────────────────────── */
+.strength-bar {
+  height: 3px;
+  border-radius: 99px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+/* ── Builder dark input (no left-icon padding, used in editor panels) ──── */
+.builder-input {
+  width: 100%;
+  padding: 9px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 8px;
+  color: #e2e8f0;
+  font-size: 0.8125rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+  resize: none;
+}
+.builder-input::placeholder { color: #475569; }
+.builder-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+/* ── Auto-save indicator pulse ─────────────────────────────────────────── */
+@keyframes savePulse {
+  0%   { opacity: 0.4; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.4; }
+}
+.save-pulse { animation: savePulse 1.4s ease-in-out infinite; }
+
+/* ── Resume paper preview sheet ────────────────────────────────────────── */
+.resume-paper {
+  background: #ffffff;
+  color: #1e293b;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(0,0,0,0.08);
+}
+
+/* ── Cover Letter print / PDF styles ──────────────────────────────────── */
+/*
+ * Strategy: #cover-letter-print lives as a direct child of <body>,
+ * outside React's #root. triggerPrint() injects a temporary <style> tag
+ * that hides #root and reveals only #cover-letter-print.
+ * This is the only approach that reliably works across Chrome, Edge, Firefox
+ * when the app is mounted inside a React root div.
+ */
+
+#cover-letter-print {
+  display: none; /* invisible during normal browsing */
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 22mm 20mm 22mm 20mm;
+  }
+
+  /* Force white page, black text — overrides any browser "use document colors" setting */
+  html, body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Typography for the printed document */
+  .cl-print-document {
+    font-family: 'Georgia', 'Times New Roman', serif !important;
+    font-size: 11.5pt !important;
+    line-height: 1.8 !important;
+    color: #000000 !important;
+    background: #ffffff !important;
+    width: 100% !important;
+    display: block !important;
+  }
+
+  .cl-print-document .cl-header {
+    border-bottom: 1.5pt solid #2563eb !important;
+    padding-bottom: 10pt !important;
+    margin-bottom: 18pt !important;
+  }
+
+  .cl-print-document .cl-header-role {
+    font-size: 9pt !important;
+    color: #2563eb !important;
+    font-family: Arial, sans-serif !important;
+    letter-spacing: 0.05em !important;
+    text-transform: uppercase !important;
+    margin-bottom: 3pt !important;
+  }
+
+  .cl-print-document .cl-header-company {
+    font-size: 16pt !important;
+    font-weight: 700 !important;
+    color: #111111 !important;
+    font-family: Arial, sans-serif !important;
+  }
+
+  .cl-print-document .cl-body p {
+    color: #000000 !important;
+    margin-bottom: 11pt !important;
+    text-align: justify !important;
+    orphans: 3;
+    widows: 3;
+  }
+
+  .cl-print-document .cl-footer {
+    margin-top: 18pt !important;
+    border-top: 0.75pt solid #cccccc !important;
+    padding-top: 8pt !important;
+    font-size: 8.5pt !important;
+    color: #666666 !important;
+    font-family: Arial, sans-serif !important;
+    display: flex !important;
+    justify-content: space-between !important;
+  }
+}
+
+/* ── Interview Prep print styles ───────────────────────────────────────── */
+#interview-print {
+  display: none;
+}
+
+@media print {
+  #interview-print {
+    display: block !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .ip-print-doc {
+    font-family: Arial, sans-serif !important;
+    font-size: 10.5pt !important;
+    line-height: 1.7 !important;
+    color: #000000 !important;
+    background: #ffffff !important;
+  }
+
+  .ip-print-doc .ip-doc-header {
+    border-bottom: 2pt solid #1d4ed8 !important;
+    padding-bottom: 8pt !important;
+    margin-bottom: 14pt !important;
+  }
+
+  .ip-print-doc .ip-doc-title {
+    font-size: 16pt !important;
+    font-weight: 700 !important;
+    color: #111111 !important;
+  }
+
+  .ip-print-doc .ip-doc-meta {
+    font-size: 8.5pt !important;
+    color: #555555 !important;
+    margin-top: 3pt !important;
+  }
+
+  .ip-print-doc .ip-section-heading {
+    font-size: 11pt !important;
+    font-weight: 700 !important;
+    color: #1d4ed8 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    margin: 16pt 0 8pt !important;
+    padding-bottom: 3pt !important;
+    border-bottom: 0.75pt solid #d1d5db !important;
+  }
+
+  .ip-print-doc .ip-q-block {
+    margin-bottom: 12pt !important;
+    page-break-inside: avoid !important;
+  }
+
+  .ip-print-doc .ip-q-number {
+    font-size: 7.5pt !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    color: #6b7280 !important;
+    margin-bottom: 2pt !important;
+  }
+
+  .ip-print-doc .ip-q-text {
+    font-size: 10.5pt !important;
+    font-weight: 600 !important;
+    color: #111111 !important;
+    margin-bottom: 4pt !important;
+  }
+
+  .ip-print-doc .ip-answer-label {
+    font-size: 8pt !important;
+    font-weight: 700 !important;
+    color: #374151 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    margin-bottom: 2pt !important;
+  }
+
+  .ip-print-doc .ip-answer-text {
+    font-size: 9.5pt !important;
+    color: #1f2937 !important;
+    line-height: 1.65 !important;
+    margin-bottom: 4pt !important;
+  }
+
+  .ip-print-doc .ip-hint-text {
+    font-size: 9pt !important;
+    color: #4b5563 !important;
+    font-style: italic !important;
+  }
+
+  .ip-print-doc .ip-difficulty {
+    display: inline-block !important;
+    font-size: 7.5pt !important;
+    font-weight: 700 !important;
+    padding: 1pt 5pt !important;
+    border-radius: 3pt !important;
+    border: 0.5pt solid #d1d5db !important;
+    color: #374151 !important;
+    margin-bottom: 4pt !important;
+  }
+
+  .ip-print-doc .ip-divider {
+    border: none !important;
+    border-top: 0.5pt solid #e5e7eb !important;
+    margin: 8pt 0 !important;
+  }
+
+  .ip-print-doc .ip-footer {
+    margin-top: 18pt !important;
+    border-top: 0.75pt solid #d1d5db !important;
+    padding-top: 6pt !important;
+    font-size: 8pt !important;
+    color: #9ca3af !important;
+    display: flex !important;
+    justify-content: space-between !important;
+  }
+}

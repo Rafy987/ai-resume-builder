@@ -1,0 +1,25 @@
+@baseUrl = http://localhost:8000/api/v1
+
+### 1. Health Check
+GET {{baseUrl}}/health
+
+### 2. User Registration (Sign Up)
+# @name register
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Abdul Rafay",
+  "email": "rafay.test@example.com",
+  "password": "SecurePassword123"
+}
+
+### 3. User Login
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "rafay.test@example.com",
+  "password": "SecurePassword123"
+}
